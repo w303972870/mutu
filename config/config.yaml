@@ -1,0 +1,17 @@
+basepath: /home/wangdianchen/framework
+database:
+    face_detect_live:
+        host     :  192.168.0.157
+        port     :  6033
+        user     :  root
+        password :  Wo7hFhnnoiatkmPPGZTpdemJxafk7K2020
+    face_detect:
+        host     :  192.168.0.157
+        port     :  6033
+        user     :  root
+        password :  Wo7hFhnnoiatkmPPGZTpdemJxafk7K2020
+custom:
+        cache : /home/wangdianchen/framework/runtime/cache/
+        tmp : /home/wangdianchen/framework/runtime/tmp/
+        logs : /home/wangdianchen/framework/runtime/logs/
+
