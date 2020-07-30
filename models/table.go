@@ -19,8 +19,8 @@ type INametable interface {
 type Itable interface {
     Select( fields string , where *Condition ) *SelectResult
     SelectOne( fields string , where *Condition ) map[string]string
-    Count( fields string , where *Condition ) int
-    Delete( where *Condition ) int
+    Count( fields string , where *Condition ) int64
+    Delete( where *Condition ) int64
 }
 
 func ( t * Table ) GetName() string {
@@ -130,7 +130,7 @@ func ( t * Table ) SelectOne ( fields string , where *Condition ) map[string]str
 }
 
 /*查询记录数量*/
-func ( t * Table ) Count ( where *Condition ,  fields string ) int {
+func ( t * Table ) Count ( where *Condition ,  fields string ) int64 {
     where.OrderBy("")
     where.GroupBy("")
     where.Limit(0,0)
@@ -141,24 +141,25 @@ func ( t * Table ) Count ( where *Condition ,  fields string ) int {
     if len( result ) < 1 {
         return 0
     } else {
-        return mtcore.MtTools.Str2Int( result[ "total" ] )
+        return int64(mtcore.MtTools.Str2Int( result[ "total" ] ))
     }
 }
 
 /*删除记录*/
-func ( t * Table ) Delete ( where *Condition ,  fields string ) int {
+func ( t * Table ) Delete ( where *Condition ) int64 {
     where.OrderBy("")
     where.GroupBy("")
     where.Limit(0,0)
-    if fields == "" {
-        fields = "1"
-    }    
-    result := t.SelectOne( mtcore.MtTools.Str( "count(" , fields , ") as total" ) , where )
-    if len( result ) < 1 {
-        return 0
-    } else {
-        return mtcore.MtTools.Str2Int( result[ "total" ] )
+    sql := where.GetSql()
+    if sql == "" || len(where.Vals) == 0 {
+        mtcore.MutuLogs.Error( "为了数据安全，禁止没有where条件的DELETE" )
     }
+    rows, err := mtcore.LibConfigParms.Mysqls[ t.DbName ].Db.Exec( mtcore.MtTools.Str( "DELETE FROM " , t.GetName() , sql ) , where.Vals... )
+    if err != nil {
+        mtcore.MutuLogs.Error( err.Error() )
+    }
+    affect , _ := rows.RowsAffected()
+    return affect
 }
 
 func doRows( rows * sql.Rows )[]map[string]string {
