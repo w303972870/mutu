@@ -1,4 +1,4 @@
-package models
+package mutu
 import (
     "fmt"
     "framework/xcommon/core"

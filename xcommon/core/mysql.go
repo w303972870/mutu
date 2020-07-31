@@ -41,7 +41,7 @@ func( m * Mysql ) Connect( dbName string ) {
         //关闭ONLY_FULL_GROUP_BY
         m.Db.Exec("SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''))")
 
-        MutuLogs.Sys( MtTools.Str( "数据库链接成功：", dbName ) )
+        MutuLogs.Sys( MtTools.Str( "创建数据库链接成功：", dbName ) )
     }
 }
 

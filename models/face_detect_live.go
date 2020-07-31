@@ -1,9 +1,10 @@
 package models
 import (
     "fmt"
+    "framework/pkgs"
 )
 
-var LiveTable Table
+var LiveTable mutu.Table
 func init(){
     //LiveTable.TbName = "live_data"
     LiveTable.TbName = "test"
@@ -12,7 +13,7 @@ func init(){
 
 
 func Qtest(){
-    var where Condition
+    var where mutu.Condition
     where.Where( "live_id > ? and live_id < ?" , 38444 , 38546 )
     where.Limit( 0 , 10 )
     where.OrderBy( "live_id asc" )
@@ -45,7 +46,7 @@ func Qtest(){
     delcount := LiveTable.Delete( &where )
     fmt.Println( delcount )
  
-    var insert Insert
+    var insert mutu.Insert
     insert.Fields( "MAC" , "face_id" , "live_type" )
     insert.Values( "00:11:04:02:33:d6","1584058701053069824",1 )
 
