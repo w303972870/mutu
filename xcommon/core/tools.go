@@ -15,6 +15,7 @@ type itools interface {
     Str2Int( str string ) int
     Int2Str( i int ) string
     Bye( code int )
+    Merger( var1 []interface{} , var2 []interface{} ) []interface{}
 }
 
 var MtTools Tools 
@@ -70,4 +71,16 @@ func( t * Tools )Int2Str( i int ) string {
 /*退出程序*/
 func( t * Tools )Bye( code int ){
     os.Exit( code )
+}
+
+/*合并数组*/
+func( t * Tools )Merger( var1 []interface{} , var2 []interface{} ) []interface{} {
+    merger := make( []interface{} , len(var1) + len(var2) )
+    for i1,v1 := range var1 {
+        merger[i1] = v1
+    }
+    for i2,v2 := range var2 {
+        merger[ len(var1) + i2 ] = v2
+    }
+    return merger
 }
