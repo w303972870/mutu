@@ -9,6 +9,12 @@ const (
     SysWindows = "Windows"
 
     ConfigBasePathKey = "basepath"
+    ConfigHttpKey = "server"
+    ConfigHttpIpKey = "ip"
+    ConfigHttpPortKey = "port"
+    ConfigRTimeOutKey = "read_time_out"
+    ConfigWTimeOutKey = "write_time_out"
+    ConfigHeaderBytesKey = "max_header_bytes"
     ConfigDbKey = "database"
     ConfigDbNameKey = "db"
     ConfigDbHostKey = "host"
@@ -23,14 +29,6 @@ type ConfigParms struct {
 
     /*系统平台类型*/
     SysType string
-
-    /*日志输出通道*/
-    LibLogChan struct {
-        ChanInfo chan interface{}
-        ChanSys chan interface{}
-        ChanError chan interface{}
-        ChanWaring chan interface{}
-    }
 
     /*命令行参数*/
     CArgs struct {
@@ -54,8 +52,77 @@ type iConfig interface {
     GetBasePath() string
     SetCustom( key string , value interface{} )
     GetCustom( key string ) interface{}
+    SetHttp( key string , value interface{} )
+    GetHttp( key string ) interface{}
     SetDatabase( database string , key string , value interface{} )
     GetDatabase( database string , key string ) interface{}
+}
+
+/*设置Http配置*/
+func ( config * configs ) SetHttp( key string , value interface{} ) {
+    if len( config.Http ) < 1 {
+        config.Http = make( map[string]interface{} )
+    }
+    
+    switch key {
+        case ConfigHttpIpKey :
+            config.Http[ key ] = value
+        case ConfigHttpPortKey :
+            config.Http[ key ] = value
+        case ConfigRTimeOutKey :
+            config.Http[ key ] = value
+        case ConfigWTimeOutKey :
+            config.Http[ key ] = value
+        case ConfigHeaderBytesKey :
+            if value != nil && value != "" && MtTools.GetType( value ) != "string" && value.(int) > 1 {
+                config.Http[ key ] = value.(int) * 1024
+            }
+        default :
+            //MutuLogs.Error( MtTools.Str( "配置文件错误： " , ConfigHttpKey , "," , key ) )
+    }
+}
+
+/*获取Http配置*/
+func ( config * configs ) GetHttp( key string ) interface{} {
+    switch key {
+        case ConfigHttpIpKey :
+            if len( config.Http ) == 0 || config.Http[ key ] == "" || config.Http[ key ] == nil {
+                //MutuLogs.Sys( "ServerIP错误，启用默认值\"0.0.0.0\"" )
+                config.SetHttp( key , "0.0.0.0" )
+            }
+        case ConfigHttpPortKey :
+            if len( config.Http ) == 0 || 
+                config.Http[ key ] == "" || 
+                MtTools.GetType( config.Http[ key ] ) == "string" || 
+                config.Http[ key ].(int) < 1 {
+                //MutuLogs.Sys( "ServerPort错误，启用默认值\"666\"" )
+                config.SetHttp( key , 666 )
+            }
+        case ConfigRTimeOutKey :
+            if len( config.Http ) == 0 || 
+                config.Http[ key ] == "" || 
+                MtTools.GetType( config.Http[ key ] ) == "string" || 
+                config.Http[ key ].(int) < 1 {
+                config.SetHttp( key , 10 )
+            }
+        case ConfigWTimeOutKey :
+            if len( config.Http ) == 0 || 
+                config.Http[ key ] == "" || 
+                MtTools.GetType( config.Http[ key ] ) == "string" || 
+                config.Http[ key ].(int) < 1 {
+                config.SetHttp( key , 10 )
+            }
+        case ConfigHeaderBytesKey :
+            if len( config.Http ) == 0 || 
+                config.Http[ key ] == "" || 
+                MtTools.GetType( config.Http[ key ] ) == "string" || 
+                config.Http[ key ].(int) < 1 {
+                config.SetHttp( key , 1024 )
+            }
+        default :
+            MutuLogs.Error( MtTools.Str( "不存在此键： " , key ) )
+    }
+    return config.Http[ key ]
 }
 
 /*获取自定义配置*/
@@ -125,6 +192,7 @@ func ( config configs ) GetDatabase( db string , key string ) interface{} {
 type configs struct {
     BasePath string
     Database map[string] * cdb
+    Http map[string]interface{}
     Custom map[string]interface{}
 }
 
@@ -151,10 +219,6 @@ func init(){
     } else {
         LibConfigParms.SysType = "Unknown"
     }
-    LibConfigParms.LibLogChan.ChanSys = make( chan interface{} , 1 )
-    LibConfigParms.LibLogChan.ChanError = make( chan interface{} , 1 )
-    LibConfigParms.LibLogChan.ChanWaring = make( chan interface{} , 1 )
-    LibConfigParms.LibLogChan.ChanInfo = make( chan interface{} , 1 )
 
     MutuLogs.Sys( MtTools.Str( "当前运行平台： " , LibConfigParms.SysType ) )
 }

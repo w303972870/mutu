@@ -16,11 +16,12 @@ func init(){
     runtime.GOMAXPROCS( runtime.NumCPU() * 5 )
 
     flag.StringVar( &LibConfigParms.CArgs.App , "app" , "http" , "启动对象[http|cmd]" )
-    flag.IntVar(&LibConfigParms.CArgs.Port, "P", 80, "当是http时的监听端口号")
+    flag.IntVar(&LibConfigParms.CArgs.Port, "P", 80, "当是http时的监听端口号，废弃，转用配置文件中的")
     flag.StringVar(&LibConfigParms.CArgs.ConfigFile, "config", "./config/", "config.yaml配置文件的所在【目录】")
-
+    
     flag.Usage = usage
     flag.Parse()
+
     if ! MtTools.Exist( LibConfigParms.CArgs.ConfigFile ) {
         MutuLogs.Error( "config error" )
         usage()

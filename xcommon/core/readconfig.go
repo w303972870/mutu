@@ -35,6 +35,18 @@ func initConfigs(){
     if len(custom) > 0 {
         readCustomConfig( custom )
     }
+
+    http := viper.GetStringMap( ConfigHttpKey )
+    if len(http) > 0 {
+        readHttpConfig( http )
+    }
+}
+
+/*处理配置文件-http部分*/
+func readHttpConfig( http map[string]interface{} ) {
+    for k,v := range http {
+        LibConfigParms.Configs.SetHttp( k , v )
+    }
 }
 
 /*处理配置文件-自定义配置部分*/

@@ -39,8 +39,11 @@ func( t * Tools )Exist( path string ) bool {
 }
 
 /*获取变量类型*/
-func( t * Tools )GetType( parm interface{} ) interface{} {
-    return reflect.TypeOf( parm )
+func( t * Tools )GetType( parm interface{} ) string {
+    if parm == nil {
+        return "string"
+    }
+    return reflect.TypeOf( parm ).Name()
 }
 
 /*拼接字符串*/
