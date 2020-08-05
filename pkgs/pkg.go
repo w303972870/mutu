@@ -2,6 +2,7 @@ package mutu
 
 import (
     "sync"
+    "framework/xcommon/init"
     "framework/xcommon/core"
 )
 var config * mtcore.ConfigParms
@@ -44,5 +45,5 @@ func Server() * mtcore.Server {
 }
 
 func init(){
-
+    minit.Test()
 }

@@ -34,7 +34,7 @@ type ConfigParms struct {
     CArgs struct {
         App string 
         ConfigFile string 
-        Port int 
+        Package string 
     }
 
     /*用户配置文件内容*/

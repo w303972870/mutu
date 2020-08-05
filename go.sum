@@ -59,6 +59,10 @@ github.com/golang/mock v1.3.1/go.mod h1:sBzyDLLjw3U8JLTeZvSv8jJB+tU5PVekmnlKIyFU
 github.com/golang/protobuf v1.2.0/go.mod h1:6lQm79b+lXiMfvg/cZm0SGofjICqVBUtrP5yJMmIC1U=
 github.com/golang/protobuf v1.3.1/go.mod h1:6lQm79b+lXiMfvg/cZm0SGofjICqVBUtrP5yJMmIC1U=
 github.com/golang/protobuf v1.3.2/go.mod h1:6lQm79b+lXiMfvg/cZm0SGofjICqVBUtrP5yJMmIC1U=
+github.com/golangaccount/cmd.go.internal v0.0.0-20191108102540-ef36201f7d53 h1:bwDGpKv2mSkZSmtcpU/W+tHDJx5xl80kxqJ3a+yU788=
+github.com/golangaccount/cmd.go.internal v0.0.0-20191108102540-ef36201f7d53/go.mod h1:dU7Sjfxf+iiRMdZLFfSLgl/LYBquN4s6rAXG3fB4mP8=
+github.com/golangaccount/cmd.internal v0.0.0-20191108101845-8306c88f1d22 h1:J5NAmrVtWlva8t+degFxn8XBeWrSaA32JnLv1qZrPME=
+github.com/golangaccount/cmd.internal v0.0.0-20191108101845-8306c88f1d22/go.mod h1:mjynMU6Db4THfYxfVN7lAdtbJgX5Tfu8wB5iCiPEDlo=
 github.com/google/btree v0.0.0-20180813153112-4030bb1f1f0c/go.mod h1:lNA+9X1NB3Zf8V7Ke586lFgjr2dZNuvo3lPJSGZ5JPQ=
 github.com/google/btree v1.0.0/go.mod h1:lNA+9X1NB3Zf8V7Ke586lFgjr2dZNuvo3lPJSGZ5JPQ=
 github.com/google/go-cmp v0.2.0/go.mod h1:oXzfMopK8JAjlY9xF4vHSVASa0yLyX7SntLO5aqRK0M=

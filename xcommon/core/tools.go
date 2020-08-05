@@ -3,6 +3,7 @@ import(
     "os"
     "bytes"
     "reflect"
+    "io/ioutil"
     "strconv"
 )
 
@@ -16,6 +17,7 @@ type itools interface {
     Int2Str( i int ) string
     Bye( code int )
     Merger( var1 []interface{} , var2 []interface{} ) []interface{}
+    LsFiles( path string ) []string
 }
 
 var MtTools Tools 
@@ -32,6 +34,17 @@ func Exist( path string ) bool {
     }
 }
 */
+
+func( t * Tools )PathExists(path string) (bool, error) {
+	_, err := os.Stat(path)
+	if err == nil {
+		return true, nil
+	}
+	if os.IsNotExist(err) {
+		return false, nil
+	}
+	return false, err
+}
 
 func( t * Tools )Exist( path string ) bool {
     _, err := os.Lstat(path)
@@ -86,4 +99,22 @@ func( t * Tools )Merger( var1 []interface{} , var2 []interface{} ) []interface{}
         merger[ len(var1) + i2 ] = v2
     }
     return merger
+}
+
+/*遍历目录下的文件*/
+func( t * Tools )LsFiles( path string ) []string {
+    lsfiles := make( []string , 0 )
+
+    readdir, err := ioutil.ReadDir( path )
+    if err != nil {
+        MutuLogs.Error( err.Error() )
+    }
+    for _, read := range readdir {
+        if read.IsDir() {
+            MutuLogs.Waring( t.Str( read.Name() , "是一个目录" ) )
+        } else  {
+            lsfiles = append( lsfiles , read.Name() )
+        }
+    }
+    return lsfiles
 }

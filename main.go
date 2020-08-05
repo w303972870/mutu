@@ -1,20 +1,14 @@
 package main
 import (
-   "fmt"
+   //"fmt"
    "framework/pkgs"
    //"framework/models"
-   "reflect"
+
 )
 
-func main(){
-    //fmt.Println(mutu.Conf().CArgs)
-    //models.Qtest()
-    //time.Sleep( time.Duration(5) * time.Second )
-    type em struct{}
 
-    fmt.Println(reflect.TypeOf(em{}).PkgPath())
+func main(){
     if mutu.Conf().CArgs.App == "http" {
         mutu.Server().Start()
     }
 }
-
